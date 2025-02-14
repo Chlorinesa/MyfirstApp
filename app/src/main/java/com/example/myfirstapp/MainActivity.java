@@ -1,8 +1,10 @@
 package com.example.myfirstapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +29,46 @@ public class MainActivity extends AppCompatActivity {
         Coll++;
         TextView TXT = (TextView) findViewById(R.id.textView2);
         TXT.setText(Coll.toString());
-
     }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null &&
+                savedInstanceState.containsKey("клик")) {
+            Coll = savedInstanceState.getInt("клик", 0);
+        }
+        TextView TXT = (TextView) findViewById(R.id.textView2);
+        TXT.setText(Coll.toString());
+        Log.d("forDebugging1", "onRestoreInstanceState");
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putInt("клик", Coll);
+        Log.d("forDebugging2","Save");
+        Toast.makeText(this, "Save",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected  void onStart(){
+        super.onStart();
+        Log.d("forDebugging3", "Go");
+        Toast.makeText(this, "Go", Toast.LENGTH_LONG).show();
+    }//вызывается, когда активность становится видимой для пользователя.
+
+    @Override
+    protected  void onResume(){
+        super.onResume();
+        Log.d("forDebugging4", "Resume");
+        Toast.makeText(this, "Resume", Toast.LENGTH_LONG).show();
+    }
+    //вызывается, когда активность начинает взаимодействовать с пользователем, после того как она стала видимой.
+
+    @Override
+    protected  void onPause(){
+        super.onPause();
+        Log.d("forDebugging5", "Wait");
+        Toast.makeText(this, "Wait", Toast.LENGTH_LONG).show();
+    }
+    //вызывается, если другая активность получает фокус, то есть она не будет видна пользователю.
 }
